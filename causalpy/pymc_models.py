@@ -226,6 +226,28 @@ class LinearRegression(PyMCModel):
             pm.Normal("y_hat", mu, sigma, observed=y, dims="obs_ind")
 
 
+class TwoStageLinearRegression(PyMCModel):
+    r"""
+    Custom PyMC model for 2 stage linear regression.
+    Used for fuzzy regression discontinuity experiments.
+
+    Defines the PyMC model:
+    """  # noqa: W605
+
+    def build_model(self, X, y, coords):
+        """
+        Defines the PyMC model
+        """
+        with self:
+            self.add_coords(coords)
+            X = pm.Data("X", X, dims=["obs_ind", "coeffs"])
+            y = pm.Data("y", y[:, 0], dims="obs_ind")
+            beta = pm.Normal("beta", 0, 50, dims="coeffs")
+            sigma = pm.HalfNormal("sigma", 1)
+            mu = pm.Deterministic("mu", pm.math.dot(X, beta), dims="obs_ind")
+            pm.Normal("y_hat", mu, sigma, observed=y, dims="obs_ind")
+
+
 class WeightedSumFitter(PyMCModel):
     r"""
     Used for synthetic control experiments.

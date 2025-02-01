@@ -12,7 +12,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 """
-Regression discontinuity design
+Sharp Regression discontinuity design
 """
 
 import warnings  # noqa: I001
@@ -93,7 +93,7 @@ class RegressionDiscontinuity(BaseExperiment):
         **kwargs,
     ):
         super().__init__(model=model)
-        self.expt_type = "Regression Discontinuity"
+        self.expt_type = "Sharp Regression Discontinuity"
         self.data = data
         self.formula = formula
         self.running_variable_name = running_variable_name
